@@ -1,25 +1,25 @@
 var sounds = ["sounds/green.mp3", "sounds/red.mp3", "sounds/yellow.mp3", "sounds/blue.mp3"];
 
-var divs = document.querySelectorAll(".btn");
-var greenDiv = document.getElementById("green");
-var redDiv = document.getElementById("red");
-var yellowDiv = document.getElementById("yellow");
-var blueDiv = document.getElementById("blue");
+var divs = $(".btn");
+var greenDiv = $(".green");
+var redDiv = $(".red");
+var yellowDiv = $(".yellow");
+var blueDiv = $(".blue");
 
-var title = document.getElementById("title");
+var title = $("#title");
+
 
 var level = 1;
 var gameOver = false;
 var buttonsActivated = [];
 var buttonsPressed = [];
 
-
 // triggering random button activation on initial press
 var index = Math.floor(Math.random() * sounds.length);
 buttonsActivated.push(index);
 
 //initial keydown event
-document.addEventListener('keydown', function() {
+$(document).keypress(function() {
    if (level == 1 || gameOver == true) {
       var audio = new Audio(sounds[index])
       divs[index].classList.add("pressed");
@@ -27,12 +27,10 @@ document.addEventListener('keydown', function() {
          divs[index].classList.remove("pressed");
       }, 200);
       audio.play();
-      title.textContent = "Level 1"
+      title.text("Level 1");
       gameOver = false;
    }
 })
-
-
 
 // checks if arrays are equal
 function arrayEquals(a, b) {
@@ -42,15 +40,13 @@ function arrayEquals(a, b) {
       a.every((val, index) => val === b[index]);
 }
 
-
 // adding click event with audio to green button
-greenDiv.addEventListener('click', greenPress)
-
+greenDiv.click(greenPress);
 function greenPress() {
    var greenAudio = new Audio("sounds/green.mp3")
-   greenDiv.classList.add("pressed");
+   greenDiv.addClass("pressed");
    setTimeout(function() {
-      greenDiv.classList.remove("pressed");
+   greenDiv.removeClass("pressed");
    }, 200);
    greenAudio.play();
    buttonsPressed.push(0)
@@ -58,13 +54,13 @@ function greenPress() {
 }
 
 // adding click event with audio to red button
-redDiv.addEventListener('click', redPress)
+redDiv.click(redPress);
 
 function redPress() {
    var redAudio = new Audio("sounds/red.mp3")
-   redDiv.classList.add("pressed");
+   redDiv.addClass("pressed");
    setTimeout(function() {
-      redDiv.classList.remove("pressed");
+      redDiv.removeClass("pressed");
    }, 200);
    redAudio.play();
    buttonsPressed.push(1)
@@ -72,27 +68,27 @@ function redPress() {
 }
 
 // adding click event with audio to yellow button
-yellowDiv.addEventListener('click', yellowPress)
-
+yellowDiv.click(yellowPress);
 function yellowPress() {
    var yellowAudio = new Audio("sounds/yellow.mp3")
-   yellowDiv.classList.add("pressed");
+   yellowDiv.addClass("pressed");
    setTimeout(function() {
-      yellowDiv.classList.remove("pressed");
+      yellowDiv.removeClass("pressed");
    }, 200);
    yellowAudio.play();
    buttonsPressed.push(2)
    checker();
 }
 
+
 // adding click event with audio to blue button
-blueDiv.addEventListener('click', bluePress)
+blueDiv.click(bluePress);
 
 function bluePress() {
    var blueAudio = new Audio("sounds/blue.mp3")
-   blueDiv.classList.add("pressed");
+   blueDiv.addClass("pressed");
    setTimeout(function() {
-      blueDiv.classList.remove("pressed");
+      blueDiv.removeClass("pressed");
    }, 200);
    blueAudio.play();
    buttonsPressed.push(3)
@@ -110,7 +106,6 @@ function randomButton() {
    buttonsActivated.push(randomIndex);
 }
 
-
 // checks if buttons pressed match buttons activated
 function checker() {
    var gameOverSound = new Audio("sounds/wrong.mp3");
@@ -119,7 +114,7 @@ function checker() {
          if (arrayEquals(buttonsPressed, buttonsActivated)) {
             level++;
             buttonsPressed = [];
-            title.textContent = "Level " + level
+            title.text("Level " + level)
             setTimeout(function() {
                randomButton()
             }, 1000);
@@ -129,10 +124,10 @@ function checker() {
             buttonsActivated = [];
             level = 1;
             gameOver = true;
-            title.textContent = "Game Over, press any key to restart";
-            document.body.style.backgroundColor = "red";
+            title.text("Game Over, press any key to restart");
+            $("body").css("background-color", "red");
             setTimeout(function() {
-               document.body.style.backgroundColor = "#68074f";
+               $("body").css("background-color","#68074f");
             }, 500);
             index = Math.floor(Math.random() * sounds.length);
             buttonsActivated.push(index);
@@ -140,6 +135,11 @@ function checker() {
       }
    }
 }
+
+
+
+
+
 
 
 
